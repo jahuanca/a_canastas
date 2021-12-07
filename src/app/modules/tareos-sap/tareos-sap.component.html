@@ -1,0 +1,103 @@
+<section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns">
+            <div class="column"></div>
+            <div class="column is-four-fifths">
+              <div class="box">
+                  <div class="columns is-multiline">
+                      <div class="column is-6">
+                          <div class="field">
+                              <label class="label">Rango de busqueda</label>
+                              <div class="control">
+                                  <nz-range-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="column is-6">
+                          <div class="field">
+                              <label class="label">Mantenedor</label>
+                              <div class="control">
+                                  <nz-select ngModel="lucy" style="width: 100%;" nzPlaceHolder="Seleccione el mantenedor">
+                                      <nz-option *ngFor="let m of mantenedors" [nzValue]="m.idmantenedor" [nzLabel]="m.detallemantenedor"></nz-option>                                      
+                                    </nz-select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="column is-12">
+                          <p class="field is-flex is-justify-content-space-around">
+                              <a class="button is-rounded" (click)="buscar()">
+                                <span class="icon">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                              </a>
+                              <a class="button is-rounded is-primary">
+                                <span class="icon">
+                                  <i class="fas fa-paper-plane"></i>
+                                </span>
+                              </a>
+                              <a class="button is-rounded is-info">
+                                <span class="icon is-small">
+                                  <i class="fas fa-clipboard-check"></i>
+                                </span>
+                              </a>
+                              <a class="button is-rounded is-danger">
+                                <span class="icon is-small">
+                                  <i class="fas fa-file-code"></i>
+                                </span>
+                              </a>
+                              <a class="button is-rounded is-warning">
+                                <span class="icon is-small">
+                                  <i class="fas fa-file-excel"></i>
+                                </span>
+                              </a>
+                            </p>
+                      </div>
+                  </div>
+              </div>
+  
+            </div>
+            <div class="column"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed"  [nzLoading]="loading">
+      <thead>
+        <tr>
+          <th nzCustomFilter>
+            Codigo Empresa
+            <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+              <i nz-icon nzType="search"></i>
+            </nz-filter-trigger>
+          </th>
+          <th>Personal</th>
+          <th>Inicio - Fin</th>
+          <th>Pausas</th>
+          <th>Turno</th>
+          <th>Labor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTable.data">
+          <td>{{ data.codigoempresa }}</td>
+          <td>{{ data.codigoempresa }}</td>
+          <td>{{ data.horaFormato }}</td>
+          <td>{{ data.pausaFormato }}</td>
+          <td>{{ data.age }}</td>
+          <td>{{ data.address }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+            Search
+          </button>
+          <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>

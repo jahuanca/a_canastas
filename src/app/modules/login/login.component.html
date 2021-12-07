@@ -1,0 +1,64 @@
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+
+                    <div class="card-image has-text-centered">
+                        <figure class="image is-64x64 is-inline-block">
+                            <img src="./assets/images/ic_logo.png"/>
+                        </figure>
+                    </div>
+
+                    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                        <div class="box">
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input your username!">
+                                    <div class="field">
+                                        <label for="" class="label">Usuario</label>
+                                        <div class="control has-icons-left">
+                                            <input type="text" placeholder="Nombre de usuario" class="input" required
+                                            formControlName="alias"
+                                                [(ngModel)]="auth.alias">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-control nzErrorTip="Please input your username!">
+                                    <div class="field">
+                                        <label for="" class="label">Contraseña</label>
+                                        <div class="control has-icons-left">
+                                            <input type="password" placeholder="*******" class="input" required
+                                            formControlName='password'
+                                                [(ngModel)]="auth.password">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="field">
+                                <label for="" class="checkbox">
+                                    <input type="checkbox">
+                                    Recordarme
+                                </label>
+                            </div>
+                            <div class="field has-text-centered">
+                                <button class="button is-success" style="margin: auto;">
+                                    Ingresar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
