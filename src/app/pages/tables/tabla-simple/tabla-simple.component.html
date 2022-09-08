@@ -1,0 +1,53 @@
+<nz-table #nzTable [nzData]="dataVisible" nzTableLayout="fixed" [nzLoading]='loading'>
+    <thead>
+        <tr>
+            <th *ngFor="let l of labels">
+                {{l.label}}
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of nzTable.data">
+            <td *ngFor="let l of labels">{{ data[l.value] }}</td>
+            <td class="is-flex is-justify-content-space-between">
+                <span *ngIf="view" nz-tooltip nzTooltipTitle="Ver" (click)="view(data['id'])">
+                    <button class="button is-info">
+                        <span class="icon">
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </button>
+                </span>
+
+                <span *ngIf="update" nz-tooltip nzTooltipTitle="Editar" (click)="showUpdateConfirm(data)">
+                    <button class="button is-warning">
+                        <span class="icon">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                    </button>
+                </span>
+
+                <span *ngIf="remove" nz-tooltip nzTooltipTitle="Eliminar" (click)="showDeleteConfirm(data['id'])">
+                    <button class="button is-danger">
+                        <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                    </button>
+                </span>
+
+                <app-elegir [idTemporada]="data['id']" *ngIf="isTemporada"></app-elegir>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+            <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+                Search
+            </button>
+            <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+    </div>
+</nz-dropdown-menu>

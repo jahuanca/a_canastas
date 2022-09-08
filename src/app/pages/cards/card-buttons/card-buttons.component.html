@@ -1,0 +1,52 @@
+<section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column is-four-fifths">
+                    <div class="box">
+                        <div class="columns is-multiline">
+                            <div class="column is-12">
+                                <div class="field is-flex is-justify-content-space-around">
+                                    <div *ngIf="buscar" class="button is-rounded" (click)="buscar()" nz-tooltip
+                                        nzTooltipTitle="Buscar">
+                                        <span class="icon">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <a class="button is-rounded is-success" (click)="agregar()" nz-tooltip nzTooltipTitle="Agregar">
+                                        <span class="icon">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                    </a>
+                                    <a class="button is-rounded is-primary" nz-tooltip nzTooltipTitle="Sincronizar">
+                                        <span class="icon">
+                                            <i class="fas fa-sync"></i>
+                                        </span>
+                                    </a>
+                                    <a *ngIf="!data" class="button is-rounded is-info" disabled>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-code"></i>
+                                        </span>
+                                    </a>
+                                    <a class="button is-rounded is-info" nz-tooltip nzTooltipTitle="Descargar JSON" [href]="downloadJsonHref" download="{{label}}.json" [class.disabled]='data'>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-code"></i>
+                                        </span>
+                                    </a>
+                                    <div class="button is-rounded is-danger" nz-tooltip nzTooltipTitle="Descargar EXCEL" (click)="exportarExcel()" [class.disabled]='data'>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-file-excel"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,8 @@
+<app-card-buttons [data]='data' [agregar]='agregar' [label]="'vehiculos'"></app-card-buttons>
+<app-tabla-simple [data]='data' [item]="'vehiculo'" [labels]='labels' [remove]='remove' [update]='update' [loading]='loading'></app-tabla-simple>
+
+<app-form-simple [titulo]='"vehiculo"' 
+[editando]='editando'
+[data]='datoSelected'
+[handleOkEdit]='handleOkEdit'
+[itemsFormulario]='itemsFormulario' [isVisible]='isVisible' [handleOk]='handleOk' [handleCancel]='handleCancel' (valueResponse)="valueResponse($event)"></app-form-simple>

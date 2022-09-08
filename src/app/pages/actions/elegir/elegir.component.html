@@ -1,0 +1,102 @@
+<span nz-tooltip nzTooltipTitle="Asignar" (click)="isVisible=!isVisible" *ngIf="idTemporada">
+    <button class="button is-info">
+        <span class="icon">
+            <i class="far fa-hand-spock"></i>
+        </span>
+    </button>
+</span>
+
+<nz-drawer [nzClosable]="false" [nzWidth]='"90%"' [nzVisible]="isVisible" nzPlacement="right"
+    nzTitle="Elegir personal para temporada" (nzOnClose)="isVisible=false">
+    <ng-container>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="columns">
+                    <div class="column is-four-fifths">
+                        <input class="input is-normal" type="text" (input)="onSearchChange($event.target.value)"
+                            placeholder="Valor a filtrar">
+                    </div>
+                    <div class="column">
+                        <div class="select is-normal">
+                            <select [(ngModel)]="campoElegido">
+                                <option *ngFor="let c of camposFiltrar" value="{{c.value}}">{{c.label}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="columns">
+            <div class="column">
+                <label class="label">{{registrados.length}} Registrados</label>
+                <div class="field is-grouped">
+                    <button class="button is-danger" (click)="eliminarRegistrado()" [disabled]='!idRegistrado'>
+                        <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <nz-spin [nzSpinning]="cargandoRegistrados">
+                    <div class="select is-multiple">
+                        <select multiple size="15" [(ngModel)]="idRegistrado">
+                            <option *ngFor="let e of registrados" value="{{e.id}}">{{e.Personal_Empresa.nombreCompleto}}</option>
+                        </select>
+                    </div>
+                </nz-spin>
+            </div>
+            <div class="column is-four-fifths">
+
+                <label class="label">Listado de personal</label>
+                <div class="is-justify-content-flex-end">
+                    <label class="label">{{elegidos.length}} SELECCIONADOS </label>
+                </div>
+
+                <nz-table #basicTable [nzData]="dataSet" [nzPageSize]='10' [nzLoading]='cargandoTabla'>
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>DNI</th>
+                            <th>Código</th>
+                            <th>Apellidos</th>
+                            <th>Nombres</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i=index">
+                            <td [nzDisabled]='registradosCodigos.includes(data.codigoempresa)'>
+                                <input type="checkbox" (click)="check(data)"
+                                [disabled]='registradosCodigos.includes(data.codigoempresa)'
+                                    [checked]='elegidos.includes(data.codigoempresa) || registradosCodigos.includes(data.codigoempresa)'>
+                            </td>
+                            <td>{{data.nrodocumento}}</td>
+                            <td>{{data.codigoempresa}}</td>
+                            <td>{{data.apellidos}}</td>
+                            <td>{{data.nombres}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+
+        </div>
+
+        <div style='position: absolute;
+        bottom:0;
+        background: white;
+        width:100%; 
+        height:60px;'>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link is-light" (click)="isVisible=false">Cancelar</button>
+                </div>
+                <div class="control">
+                    <button class="button is-link" (click)="enviar()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </ng-container>
+</nz-drawer>

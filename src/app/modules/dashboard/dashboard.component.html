@@ -1,0 +1,71 @@
+<nz-layout class="app-layout">
+    <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null">
+      <div class="sidebar-logo">
+        <a href="https://ng.ant.design/" target="_blank">
+          <img src="./assets/images/ic_avatar.png" alt="logo">
+          <h1>Agrovisión - Canastas</h1>
+        </a>
+      </div>
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <li nz-menu-item routerLink="/personal-vehiculo" [nzSelected]='"personal-vehiculo" == lastHref'>
+          <i nz-icon nzType="dashboard"></i>
+          <span>Registros</span>
+        </li>
+        <li nz-menu-item routerLink="/encuestas" [nzSelected]='"encuestas" == lastHref'>
+          <i nz-icon nzType="calendar" nzTheme="outline"></i>
+          <span>Encuestas</span>
+        </li>
+        <li nz-menu-item routerLink="/temporadas" [nzSelected]='"temporadas" == lastHref'>
+          <i nz-icon nzType="calendar" nzTheme="outline"></i>
+          <span>Temporadas</span>
+        </li>
+        <li nz-menu-item routerLink="/vehiculos" [nzSelected]='"vehiculos" == lastHref'>
+          <i nz-icon nzType="car" nzTheme="outline"></i>
+          <span>Vehiculos</span>
+        </li>
+        <li nz-menu-item routerLink="/productos" [nzSelected]="'productos' === lastHref">
+          <i nz-icon nzType="shop" nzTheme="outline"></i>
+          <span>Productos</span>
+        </li>
+        <li nz-menu-item routerLink="/puntos-entrega" [nzSelected]="'puntos-entrega' === lastHref">
+          <i nz-icon nzType="compass" nzTheme="outline"></i>
+          <span>Puntos de entrega</span>
+        </li>
+        <li nz-menu-item routerLink="/bloqueados" [nzSelected]="'bloqueados' === lastHref">
+          <i nz-icon nzType="compass" nzTheme="outline"></i>
+          <span>Personal bloqueado</span>
+        </li>
+        <li nz-menu-item (click)="cerrarSesion()">
+          <i nz-icon nzType="close-square" nzTheme="outline"></i>
+          <span>Cerrar sesión</span>
+        </li>
+        
+      </ul>
+    </nz-sider>
+    <nz-layout>
+      <nz-header>
+        <div class="app-header">
+          <div nz-row>
+            <div nz-col nzSpan="8">
+              <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+              </span>
+            </div>
+            <div nz-col nzSpan="4" nzOffset="12">
+              <div nz-row>
+                <div nz-col nzSpan="8"><i nz-icon nzType="expand" nzTheme="outline"></i></div>
+                <div nz-col nzSpan="8"><i nz-icon nzType="alert" nzTheme="outline"></i></div>
+                <div nz-col nzSpan="8"><nz-avatar nzText="U" style="color:#f56a00; background-color:#fde3cf;"></nz-avatar></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nz-header>
+      <nz-content>
+        <div class="inner-content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
