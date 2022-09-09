@@ -34,8 +34,21 @@
                         </span>
                     </button>
                 </span>
+                
+                <div [ngSwitch]="typeView">
+                <div *ngSwitchCase="'encuesta'">
+                    <app-acciones-encuesta [id]="data['id']"></app-acciones-encuesta>
+                </div>
 
-                <app-elegir [idTemporada]="data['id']" *ngIf="isTemporada"></app-elegir>
+                <div *ngSwitchCase="'temporada'">
+                    <app-elegir [idTemporada]="data['id']"></app-elegir>
+                </div>
+                
+                <div *ngSwitchDefault>
+                
+                </div>
+                </div>
+                
             </td>
         </tr>
     </tbody>

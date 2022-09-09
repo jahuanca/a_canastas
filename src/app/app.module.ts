@@ -18,6 +18,7 @@ import es from '@angular/common/locales/es';
 import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 import { NzMessageModule } from 'ng-zorro-antd';
 
+
 registerLocaleData(es);
 
 @NgModule({
@@ -35,7 +36,8 @@ registerLocaleData(es);
     FormsModule,
     NzMessageModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    
   ],
   providers: [{ provide: NZ_I18N, useValue: es_ES }, {
     provide: HTTP_INTERCEPTORS,

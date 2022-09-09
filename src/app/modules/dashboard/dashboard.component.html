@@ -1,4 +1,4 @@
-<nz-layout class="app-layout">
+<nz-layout class="app-layout" id="content">
     <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
       [nzTrigger]="null">
       <div class="sidebar-logo">
@@ -54,8 +54,9 @@
             </div>
             <div nz-col nzSpan="4" nzOffset="12">
               <div nz-row>
-                <div nz-col nzSpan="8"><i nz-icon nzType="expand" nzTheme="outline"></i></div>
-                <div nz-col nzSpan="8"><i nz-icon nzType="alert" nzTheme="outline"></i></div>
+                <div nz-col nzSpan="8" style="cursor: pointer;" (click)="resizeAll()">
+                  <i nz-icon nzType="expand" nzTheme="outline"></i></div>
+                <!-- <div nz-col nzSpan="8"><i nz-icon nzType="alert" nzTheme="outline"></i></div> -->
                 <div nz-col nzSpan="8"><nz-avatar nzText="U" style="color:#f56a00; background-color:#fde3cf;"></nz-avatar></div>
               </div>
             </div>

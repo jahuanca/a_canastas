@@ -17,7 +17,7 @@ export class TablaSimpleComponent implements OnInit, OnChanges {
 
   searchValue = '';
   visible = false;
-  @Input() isTemporada=false;
+  @Input() typeView='';
   @Input() item='';
   @Input() loading=false;
   @Input() data: [] = [];

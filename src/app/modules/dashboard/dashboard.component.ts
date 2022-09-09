@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd';
+import { Window } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,7 @@ import { NzModalService } from 'ng-zorro-antd';
 export class DashboardComponent implements OnInit {
 
   isCollapsed = false;
+  isExpand=false;
   public href: string = "";
   lastHref: string='';
 
@@ -33,6 +35,20 @@ export class DashboardComponent implements OnInit {
       },
       nzCancelText: 'Cancel'
     });
+  }
+
+  resizeAll(){
+    var elem = document.getElementById("content");
+    if(this.isExpand){  
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }     
+    }else{
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      }
+    }
+    this.isExpand=!this.isExpand;
   }
 
 }
