@@ -1,4 +1,4 @@
-<span nz-tooltip nzTooltipTitle="Asignar" (click)="isVisible=!isVisible" *ngIf="idTemporada">
+<span nz-tooltip nzTooltipTitle="Asignar" (click)="goAcciones()" *ngIf="idTemporada">
     <button class="button is-info">
         <span class="icon">
             <i class="far fa-hand-spock"></i>
@@ -29,7 +29,7 @@
 
         <div class="columns">
             <div class="column">
-                <label class="label">{{registrados.length}} Registrados</label>
+                <label class="label">{{registrados?.length}} Registrados</label>
                 <div class="field is-grouped">
                     <button class="button is-danger" (click)="eliminarRegistrado()" [disabled]='!idRegistrado'>
                         <span class="icon">
@@ -50,7 +50,7 @@
 
                 <label class="label">Listado de personal</label>
                 <div class="is-justify-content-flex-end">
-                    <label class="label">{{elegidos.length}} SELECCIONADOS </label>
+                    <label class="label">{{elegidos?.length}} SELECCIONADOS </label>
                 </div>
 
                 <nz-table #basicTable [nzData]="dataSet" [nzPageSize]='10' [nzLoading]='cargandoTabla'>

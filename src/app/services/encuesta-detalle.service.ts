@@ -42,6 +42,19 @@ export class EncuestaDetalleService {
       );
   }
 
+  postEncuestasDetallesByIdEncuestaAndRange(id:number, inicio: Date, fin:Date) {
+    return this.http.post<EncuestaDetalle[]>(`${this.URL_API}/rangeDate`,
+        {
+          'id': id,
+          'inicio': inicio,
+          'fin': fin
+        }
+      , { headers: this.headers })
+      .pipe(
+        map(data => data.map(data => new EncuestaDetalle().deserialize(data)))
+      );
+  }
+
   getEncuestaDetallesByLimitAndOffset(limit: number, offset:number) {
     return this.http.get<EncuestaDetalle[]>(`${this.URL_API}/range&limit=limit&offset=offset`, { headers: this.headers })
       .pipe(

@@ -11,7 +11,7 @@ export class CardButtonsComponent implements OnInit, OnChanges {
 
   @Input() buscar: () => void;
   @Input() agregar: () => void;
-  @Input() data: [] = [];
+  @Input() data: any;
   @Input() label: String;
   downloadJsonHref;
 
@@ -21,8 +21,6 @@ export class CardButtonsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //if(changes.data.currentValue != undefined)     this.data=changes.data.currentValue;
-    //if(changes.agregar.currentValue != undefined)  this.agregar=changes.agregar.currentValue;
     this.generateDownloadJsonUri();
   }
 
@@ -31,8 +29,8 @@ export class CardButtonsComponent implements OnInit, OnChanges {
   }
 
   generateDownloadJsonUri() {
-    var theJSON = JSON.stringify(this.data);
-    var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+    let theJSON = JSON.stringify(this.data);
+    let uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
     this.downloadJsonHref = uri;
   }
 

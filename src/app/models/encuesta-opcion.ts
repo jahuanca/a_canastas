@@ -12,13 +12,19 @@ export class EncuestaOpcion implements Deserializable {
     createdAt: Date;
     updatedAt: Date;
 
-    constructor() { }
+    constructor(init?:Partial<EncuestaOpcion>) {
+        Object.assign(this, init);
+    }
 
     deserialize(input: any) {
         Object.assign(this, input);
         /* if(input['createdAt'] != null) this.createdAt = new Date(input['createdAt']);
         if(input['updatedAt'] != null) this.updatedAt = new Date(input['updatedAt']); */
         return this;
+    }
+
+    toString(){
+        return `${this.opcion ?? '---' }`;
     }
 
 }

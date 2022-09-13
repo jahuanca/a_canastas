@@ -14,12 +14,12 @@
                                             <i class="fas fa-search"></i>
                                         </span>
                                     </div>
-                                    <a class="button is-rounded is-success" (click)="agregar()" nz-tooltip nzTooltipTitle="Agregar">
+                                    <a class="button is-rounded is-success" *ngIf="agregar" (click)="agregar()" nz-tooltip nzTooltipTitle="Agregar">
                                         <span class="icon">
                                             <i class="fas fa-plus"></i>
                                         </span>
                                     </a>
-                                    <a class="button is-rounded is-primary" nz-tooltip nzTooltipTitle="Sincronizar">
+                                    <a class="button is-rounded is-primary" *ngIf="agregar" nz-tooltip nzTooltipTitle="Sincronizar">
                                         <span class="icon">
                                             <i class="fas fa-sync"></i>
                                         </span>

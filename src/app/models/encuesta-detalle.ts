@@ -13,7 +13,7 @@ export class EncuestaDetalle implements Deserializable {
     hora: Date;
     createdAt: Date;
     updatedAt: Date;
-    PersonalEmpresa: PersonalEmpresa;
+    Personal_Empresa: PersonalEmpresa;
     EncuestaOpcion: EncuestaOpcion;
 
     constructor() { }
@@ -24,8 +24,9 @@ export class EncuestaDetalle implements Deserializable {
         if(input['createdAt']) this.createdAt = new Date(input['createdAt']);
         if(input['updatedAt']) this.updatedAt = new Date(input['updatedAt']);
 
-        this.PersonalEmpresa = new PersonalEmpresa().deserialize(input['Personal_Empresa']);
+        this.Personal_Empresa = new PersonalEmpresa().deserialize(input['Personal_Empresa']);
         this.EncuestaOpcion = new EncuestaOpcion().deserialize(input['EncuestaOpcion']);
         return this;
     }
+
 }

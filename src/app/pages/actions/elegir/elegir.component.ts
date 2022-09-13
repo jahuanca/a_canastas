@@ -16,7 +16,7 @@ export class ElegirComponent implements OnInit {
   dataSet: PersonalEmpresa[];
   data: PersonalEmpresa[];
   elegidos: string[] = [];
-  registrados: PersonalAptoTemporada[] = [];
+  registrados: PersonalAptoTemporada[];
   registradosCodigos: string[] = [];
   idRegistrado:number;
   camposFiltrar: { value: String, label: string }[] = [
@@ -32,8 +32,7 @@ export class ElegirComponent implements OnInit {
   constructor(private personalEmpresaService: PersonalEmpresaService, private personalAptoTemporadaService: PersonalAptoTemporadaService) { }
 
   ngOnInit(): void {
-    this.getPersonalEmpresa();
-    this.getPersonalRegistrado();
+    
   }
 
   getPersonalRegistrado() {
@@ -82,6 +81,13 @@ export class ElegirComponent implements OnInit {
       }
     }
     this.elegidos.push(p.codigoempresa);
+  }
+
+  goAcciones(){
+    this.isVisible=true;
+    if(!this.data) this.getPersonalEmpresa();
+    if(!this.registrados) this.getPersonalRegistrado();
+
   }
 
   enviar() {

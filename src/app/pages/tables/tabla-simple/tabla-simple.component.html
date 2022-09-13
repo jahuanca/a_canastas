@@ -37,7 +37,7 @@
                 
                 <div [ngSwitch]="typeView">
                 <div *ngSwitchCase="'encuesta'">
-                    <app-acciones-encuesta [id]="data['id']"></app-acciones-encuesta>
+                    <app-acciones-encuesta [id]="data['id']" [seleccionada]="data"></app-acciones-encuesta>
                 </div>
 
                 <div *ngSwitchCase="'temporada'">

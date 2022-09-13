@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EncuestaComponent } from './encuesta/encuesta.component';
 import { FormsModule  as F} from '@angular/forms';
 import { FormsModule } from '../forms/forms.module';
+import { CardsModule } from '../cards/cards.module';
 
 
 
@@ -24,6 +25,7 @@ import { FormsModule } from '../forms/forms.module';
     F,
     NzSelectModule,
     NzDatePickerModule,
+    CardsModule,
   ],
   exports: [ElegirComponent, EncuestaComponent]
 })
