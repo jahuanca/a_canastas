@@ -14,7 +14,9 @@
             <div class="hero-body">
                 <div class="columns">
                     <div class="column is-four-fifths">
-                        <nz-range-picker [(ngModel)]="rango" [ngModelOptions]="{standalone: true}" style="width: 100%;">
+                        <nz-range-picker [(ngModel)]="rango"
+                        nzFormat="d/MM/yy"
+                        [ngModelOptions]="{standalone: true}" style="width: 100%;">
                         </nz-range-picker>
                     </div>
                     <div class="column">
@@ -93,7 +95,8 @@
 
     <ng-template #form>
 
-        <label class="label">{{editando ? 'Editar' : 'Agregar'}} opción</label>
+        <nz-spin nzTip="Cargando..." [nzSpinning]="isLoading">
+            <label class="label">{{editando ? 'Editar' : 'Agregar'}} opción</label>
 
         <br /> <br />
 
@@ -134,6 +137,7 @@
                 <button class="button is-link is-light" (click)="handleCancel()">Cancelar</button>
             </div>
         </div>
+        </nz-spin>
 
     </ng-template>
 
@@ -175,7 +179,7 @@
                             <td>{{data?.Personal_Empresa.nombreCompleto}}</td>
                             <td>{{data.idopcionencuesta != null ? data.EncuestaOpcion?.opcion : 'OM:
                                 '+data?.opcionmanual}}</td>
-                            <td>{{data.hora | date :'short' }}</td>
+                            <td>{{data.hora | date :'d/MM/yy' }}</td>
                         </tr>
                     </tbody>
                 </nz-table>

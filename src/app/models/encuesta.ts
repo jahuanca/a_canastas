@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Deserializable } from "./deserializable";
 
 export class Encuesta implements Deserializable{
@@ -23,5 +24,13 @@ export class Encuesta implements Deserializable{
         this.createdAt= new Date(input['createdAt']);
         this.updatedAt= new Date(input['updatedAt']);
         return this;
+    }
+
+    get nombre():String{
+        return `${this.anio}-${this.periodo}`;
+    }
+
+    get rango():String{
+        return `${new DatePipe('en-US').transform(this.fechaInicio, 'dd/MM/yy')} - ${new DatePipe('en-US').transform(this.fechaFin, 'dd/MM/yy')}`;
     }
 }

@@ -12,6 +12,7 @@ import { Chart, registerables } from 'chart.js'
 import { DataSetChart } from 'src/app/models/data-set-chart';
 import { DatePipe } from '@angular/common';
 import { Encuesta } from 'src/app/models/encuesta';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-acciones-encuesta',
@@ -50,8 +51,8 @@ export class EncuestaComponent implements OnInit {
   itemsFormulario: ItemFormulario[] = [
 
     { type: 'text', value: 'opcion', label: 'Opción', placeholder: 'Opción de la encuesta', errorMessage: 'Ingrese un opción', validators: [Validators.required] },
-    { type: 'text', value: 'descripcion', label: 'Descripcion', placeholder: 'Descripcion de la encuesta', errorMessage: 'Ingrese una descripción', validators: [Validators.required] },
-    { type: 'text', value: 'observacion', label: 'Observación', placeholder: 'Observación de la encuesta', errorMessage: 'Ingrese una observación', validators: [Validators.required] },
+    { type: 'text', value: 'descripcion', label: 'Descripcion', placeholder: 'Descripcion de la encuesta', errorMessage: 'Ingrese una descripción', validators: [] },
+    { type: 'text', value: 'observacion', label: 'Observación', placeholder: 'Observación de la encuesta', errorMessage: 'Ingrese una observación', validators: [] },
   ];
   canvas: any;
   ctx: any;
@@ -62,9 +63,10 @@ export class EncuestaComponent implements OnInit {
   chartCircle: Chart;
   textoFechas:string='';
   dataToExport=new Map();
+  isLoading:Boolean=false;
   @ViewChild('chartCircle', { static: false }) chartRefCircle?: ElementRef;
 
-  constructor(private fb: FormBuilder, private encuestaOpcionService: EncuestaOpcionService, private encuestaDetalleService: EncuestaDetalleService) { }
+  constructor(private message: NzMessageService, private fb: FormBuilder, private encuestaOpcionService: EncuestaOpcionService, private encuestaDetalleService: EncuestaDetalleService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -106,8 +108,8 @@ export class EncuestaComponent implements OnInit {
 
   allContent() {
     this.textoFechas = (this.rango[0]!=this.rango[1]) ?
-    `${new DatePipe('en-US').transform(this.rango[0], 'shortDate')} - ${new DatePipe('en-US').transform(this.rango[1], 'shortDate')}`
-    : `${new DatePipe('en-US').transform(this.rango[0], 'shortDate')}`;
+    `${new DatePipe('en-US').transform(this.rango[0], 'd/MM/yy')} - ${new DatePipe('en-US').transform(this.rango[1], 'd/MM/yy')}`
+    : `${new DatePipe('en-US').transform(this.rango[0], 'd/MM/yy')}`;
     this.cargandoDetalles=true;
     this.dataChart=[];
     this.labels=[];
@@ -147,6 +149,10 @@ export class EncuestaComponent implements OnInit {
 
         if (results[0] instanceof Array && results[1] instanceof Array) {
           
+          this.message.create('success', `Consulta cargada.`, {
+            nzDuration: 1000
+          });
+
           this.dataToExport.set('Encuesta', this.seleccionada);
           this.dataToExport.set('Detalles', this.detalles);
           this.dataToExport.set('Opciones', this.opciones);
@@ -265,8 +271,19 @@ export class EncuestaComponent implements OnInit {
   }
 
   eliminarRegistrado() {
-    console.log('eliminar');
-    for (let i = 0; i < this.registrados.length; i++) {
+    this.encuestaOpcionService.deleteEncuestaOpcion(this.opcionSeleccionada[0].id)
+      .subscribe( res=>{
+        let index=this.opciones.findIndex( (e)=> e.id == this.opcionSeleccionada[0].id);
+        this.opciones.splice(index, 1);
+        this.opciones=[...this.opciones];
+        this.opcionSeleccionada=null;
+        this.message.create('success', `Opción eliminada.`);
+      }, err => {
+        this.message.create('error', err.toString());
+      }
+      
+      )
+    /* for (let i = 0; i < this.registrados.length; i++) {
       const element = this.registrados[i];
       if (this.opcionSeleccionada[0].id == element.id) {
         this.registrados.splice(i, 1);
@@ -274,7 +291,7 @@ export class EncuestaComponent implements OnInit {
         this.opcionSeleccionada[0].id = null;
         return;
       }
-    }
+    } */
   }
 
   registrarNuevo() {
@@ -303,6 +320,9 @@ export class EncuestaComponent implements OnInit {
   handleOkEvent() {
     this.submitForm();
     if (this.validateForm.valid) {
+
+      this.isLoading=true;
+
       this.nuevoObjeto['id'] = this.validateForm.get('id').value;
       this.itemsFormulario.map((e) => {
 
@@ -325,16 +345,35 @@ export class EncuestaComponent implements OnInit {
       if (this.editando) {
         this.encuestaOpcionService.putEncuestaOpcion(this.nuevoObjeto as EncuestaOpcion)
           .subscribe(res => {
-            /* this.opciones.(this.nuevoObjeto as EncuestaOpcion); */
+            let index=this.opciones.findIndex((e)=> e.id== res.id);
+            this.opciones[index]=res as EncuestaOpcion;
             this.opciones = [...this.opciones];
+            this.editando=false;
+            
             this.validateForm.reset();
+            
+            this.isLoading=false;
+            this.message.create('success', `Opción editada.`);
+            this.currentTemplate = 'tabla';
+          }, err => {
+            this.isLoading=false;
+            this.message.create('error', `Ocurrió un error.`);
           })
       } else {
         this.encuestaOpcionService.postEncuestaOpcion(this.nuevoObjeto as EncuestaOpcion)
           .subscribe(res => {
-            this.opciones.push(this.nuevoObjeto as EncuestaOpcion);
+            
+            this.opciones.push(res as EncuestaOpcion);
             this.opciones = [...this.opciones];
             this.validateForm.reset();
+
+            this.isLoading=false;
+            this.message.create('success', `Opción agregada.`);
+            this.currentTemplate = 'tabla';
+            
+          }, err => {
+            this.isLoading=false;
+            this.message.create('error', `Ocurrió un error.`);
           })
 
       }

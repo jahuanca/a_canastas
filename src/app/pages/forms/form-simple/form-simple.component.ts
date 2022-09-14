@@ -106,9 +106,9 @@ export class FormSimpleComponent implements OnInit, OnChanges {
             break;
         }
       });
-      this.validateForm.reset();
       this.editando ? this.handleOkEdit(this.nuevoObjeto) : this.handleOk(this.nuevoObjeto);
       this.nuevoObjeto['isNew']=(this.editando) ? false : true;
+      this.validateForm.reset();
       /* this.valueResponse.emit(this.nuevoObjeto); */
     }else{
       console.log('el formulario no pudo ser validado');

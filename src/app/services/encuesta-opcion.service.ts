@@ -70,7 +70,7 @@ export class EncuestaOpcionService {
   }
 
   deleteEncuestaOpcion(id: number) {
-    return this.http.delete<EncuestaOpcion>(`${this.URL_API}/delete/id`, { headers: this.headers })
+    return this.http.delete<EncuestaOpcion>(`${this.URL_API}/delete/${id}`, { headers: this.headers })
       .pipe(
         map(data => new EncuestaOpcion().deserialize(data))
       );

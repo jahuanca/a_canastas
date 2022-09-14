@@ -4,6 +4,7 @@ import { Encuesta } from 'src/app/models/encuesta';
 import { ItemFormulario } from 'src/app/pages/forms/form-simple/form-simple.component';
 import { ProductoService } from 'src/app/services/producto.service';
 import { EncuestaService } from 'src/app/services/encuesta.service';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-encuestas',
@@ -16,10 +17,10 @@ export class EncuestasComponent implements OnInit {
   datoSelected: Encuesta;
   loading: boolean = false;
   labels: { label: String, value: String }[] = [
-    { label: 'Año', value: 'anio' },
+    { label: 'Año', value: 'nombre' },
     { label: 'Titulo', value: 'titulo' },
     { label: 'Descripcion', value: 'descripcion' },
-    { label: 'Periodo', value: 'periodo' },
+    { label: 'Fechas', value: 'rango' },
   ];
   isVisible: Boolean = false;
   editando: Boolean = false;
@@ -54,7 +55,7 @@ export class EncuestasComponent implements OnInit {
   ];
 
 
-  constructor(private encuestaService: EncuestaService) {
+  constructor(private encuestaService: EncuestaService, private notification: NzNotificationService) {
   }
 
   ngOnInit(): void {
@@ -96,34 +97,71 @@ export class EncuestasComponent implements OnInit {
   }
 
   handleOk = (args: any): void => {
-    console.log(args);
     this.encuestaService.postEncuesta(args as Encuesta)
       .subscribe(res => {
-        this.isVisible = false;
         this.editando = false;
         this.data.push(res);
         this.data=[...this.data];
+
+        this.isVisible = false;
+
+        this.notification.create(
+          'success',
+          'Éxito',
+          'Encuesta creada.'
+        );
+
       }, err => {
-        console.log(err);
+        this.notification.create(
+          'error',
+          'Error',
+          err.toString(),
+        );
       });
   }
 
   handleOkEdit = (args: any): void => {
+    console.log(args);
     this.encuestaService.putEncuesta(args as Encuesta)
       .subscribe(res => {
-        this.isVisible = false;
+        let index=this.data.findIndex( (e)=> e.id==res.id);
+        if(index != -1)  this.data[index]=res as Encuesta;
+        this.data=[...this.data];
         this.editando = false;
+
+        this.isVisible = false;
+        this.notification.create(
+          'success',
+          'Éxito',
+          'Encuesta editada.'
+        );
+        
       }, err => {
-        console.log(err);
+        this.notification.create(
+          'error',
+          'Error',
+          err.toString(),
+        );
       });
   }
 
   remove = (args: any): void => {
     this.encuestaService.deleteEncuesta(args)
       .subscribe(res => {
-        console.log(res);
+        let index=this.data.findIndex( (e) => e.id==args);
+        if(index != -1) this.data.splice(index, 1);
+        this.data=[...this.data]
+        this.notification.create(
+          'success',
+          'Éxito',
+          'Encuesta eliminada.'
+        );
       }, err => {
-        console.log(err);
+        this.notification.create(
+          'error',
+          'Error',
+          err.toString(),
+        );
       });
   }
 
