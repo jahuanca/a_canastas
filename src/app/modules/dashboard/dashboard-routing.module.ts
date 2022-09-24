@@ -9,6 +9,7 @@ const routes: Routes = [
     children: [
       /* { path: '', loadChildren: () => import('./../home/home.module').then(m => m.HomeModule) }, */
       { path: 'personal-vehiculo', loadChildren: () => import('./../personal-vehiculo/personal-vehiculo.module').then(m => m.PersonalVehiculoModule)},
+      { path: 'respuestas-personal', loadChildren: () => import('./../respuestas-personal/respuestas-personal.module').then(m => m.RegistrosPersonalModule)},
       
       { path: 'encuestas', loadChildren: () => import('./../encuestas/encuestas.module').then(m => m.EncuestasModule) },
       { path: 'bloqueados', loadChildren: () => import('./../bloqueados/bloqueados.module').then(m => m.BloqueadosModule) },
