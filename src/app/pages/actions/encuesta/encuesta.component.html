@@ -1,4 +1,4 @@
-<span nz-tooltip nzTooltipTitle="Opciones" (click)="goAcciones()" *ngIf="id">
+<span nz-tooltip nzTooltipTitle="Preguntas" (click)="goAcciones()" *ngIf="id">
     <button class="button is-info">
         <span class="icon">
             <i class="far fa-hand-spock"></i>
@@ -6,71 +6,20 @@
     </button>
 </span>
 
-<nz-drawer [nzClosable]="false" [nzWidth]='"90%"' [nzVisible]="isVisible" nzPlacement="right" [nzTitle]="seleccionada.titulo"
-    (nzOnClose)="isVisible=false">
+<nz-drawer [nzClosable]="false" [nzWidth]='"90%"' [nzVisible]="isVisible" nzPlacement="right"
+    [nzTitle]="seleccionada.titulo" (nzOnClose)="isVisible=false">
     <ng-container>
+        
+        <div [ngSwitch]="currentTemplate">
 
-        <section class="hero">
-            <div class="hero-body">
-                <div class="columns">
-                    <div class="column is-four-fifths">
-                        <nz-range-picker [(ngModel)]="rango"
-                        nzFormat="d/MM/yy"
-                        [ngModelOptions]="{standalone: true}" style="width: 100%;">
-                        </nz-range-picker>
-                    </div>
-                    <div class="column">
-                        <button class="button is-link" (click)="consultar()">Consultar</button>
-                    </div>
-                </div>
+            <div *ngSwitchCase="'nueva_pregunta'" [ngTemplateOutlet]="nueva_pregunta"></div>
+
+            <div *ngSwitchCase="'tabla'">
+                <ng-container *ngTemplateOutlet="tabla"></ng-container>
             </div>
-        </section>
 
-        <div class="columns">
-            <div class="column">
-                <label class="label">{{opciones?.length}} opciones</label>
-                <div class="field is-grouped">
-                    <button class="button is-danger mr-2" (click)="eliminarRegistrado()"
-                        [disabled]='!opcionSeleccionada'>
-                        <span class="icon">
-                            <i class="fas fa-trash-alt"></i>
-                        </span>
-                    </button>
-
-                    <button class="button is-alert mr-2" (click)="editarRegistro()" [disabled]='!opcionSeleccionada'
-                        *ngIf="currentTemplate == 'tabla'">
-                        <span class="icon">
-                            <i class="fas fa-pen"></i>
-                        </span>
-                    </button>
-
-                    <button class="button is-success" (click)="registrarNuevo()" *ngIf="currentTemplate == 'tabla' ">
-                        <span class="icon">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                    </button>
-                </div>
-
-                <nz-spin [nzSpinning]="cargandoOpciones">
-                    <div class="select is-multiple">
-                        <select multiple size="15" [(ngModel)]="opcionSeleccionada">
-                            <option *ngFor="let e of opciones" [value]="e">{{e.opcion}}</option>
-                        </select>
-                    </div>
-                </nz-spin>
-            </div>
-            <div class="column is-four-fifths">
-
-                <div [ngSwitch]="currentTemplate">
-
-                    <div *ngSwitchCase="'tabla'">
-                        <ng-container *ngIf="false; else tabla"></ng-container>
-                    </div>
-                    <div *ngSwitchDefault>
-                        <ng-container *ngIf="false; else form"></ng-container>
-                    </div>
-                </div>
-
+            <div *ngSwitchDefault>
+                
             </div>
 
         </div>
@@ -84,158 +33,174 @@
                 <div class="control">
                     <button class="button is-link is-light" (click)="isVisible=false">Cerrar</button>
                 </div>
-                <!-- <div class="control">
-                    <button class="button is-link" (click)="enviar()">Aceptar</button>
-                </div> -->
             </div>
         </div>
 
     </ng-container>
 
-
-    <ng-template #form>
+    <ng-template #formPregunta>
 
         <nz-spin nzTip="Cargando..." [nzSpinning]="isLoading">
-            <label class="label">{{editando ? 'Editar' : 'Agregar'}} opción</label>
+            <label class="label">{{editando ? 'Editar' : 'Agregar'}} pregunta</label>
 
-        <br /> <br />
+            <br /> <br />
 
-        <div class="field" *ngFor="let fControl of itemsFormulario">
-            <form nz-form [formGroup]="validateForm">
-                <nz-form-item>
-                    <nz-form-control [nzErrorTip]="fControl.errorMessage">
-                        <label class="label">{{fControl.label}}</label>
-                        <div class="control">
-                            <div [ngSwitch]="fControl.type">
-                                <ng-container *ngSwitchCase="'select'">
-                                    <nz-select [formControlName]="fControl.value"
-                                        [nzPlaceHolder]="fControl.placeholder">
-                                        <nz-option *ngFor="let i of fControl.data" [nzValue]="i.id"
-                                            [nzLabel]="i.descripcion"></nz-option>
-                                    </nz-select>
-                                </ng-container>
+            <div class="field" *ngFor="let fControl of itemsFormularioPregunta">
+                <form nz-form [formGroup]="validateForm">
+                    <nz-form-item>
+                        <nz-form-control [nzErrorTip]="fControl.errorMessage">
+                            <label class="label">{{fControl.label}}</label>
+                            <div class="control">
+                                <div [ngSwitch]="fControl.type">
+                                    <ng-container *ngSwitchCase="'select'">
+                                        <nz-select [formControlName]="fControl.value"
+                                            [nzPlaceHolder]="fControl.placeholder">
+                                            <nz-option *ngFor="let i of fControl.data" [nzValue]="i.id"
+                                                [nzLabel]="i.descripcion"></nz-option>
+                                        </nz-select>
+                                    </ng-container>
 
-                                <ng-container *ngSwitchDefault>
-                                    <input class="input" [formControlName]="fControl.value" type="fControl.type"
-                                        [placeholder]="fControl.placeholder">
-                                </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        <input class="input" [formControlName]="fControl.value" type="fControl.type"
+                                            [placeholder]="fControl.placeholder">
+                                    </ng-container>
+                                </div>
+
                             </div>
-
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-            </form>
-        </div>
-
-        <div class="field is-grouped">
-
-            <div class="control">
-                <button class="button is-link" (click)="handleOkEvent()">{{editando ? 'Editar' : 'Agregar'}}</button>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
             </div>
 
-            <div class="control">
-                <button class="button is-link is-light" (click)="handleCancel()">Cancelar</button>
+            <label class="label">Opciones </label>
+
+            <div class="columns is-multiline">
+                <div class="column is-3">
+                    <div class="field is-flex is-justify-content-space-around">
+                        <a class="button is-rounded is-success" nz-tooltip nzTooltipTitle="Agregar" (click)="accionOpcion='nueva_opcion';">
+                            <span class="icon">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </a>
+                        <span nz-tooltip nzTooltipTitle="Editar" [hidden]="!opcionSelected" (click)="goEditarOpcion(opcionSelected)">
+                            <button class="button is-warning">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                            </button>
+                        </span>
+                        <span nz-tooltip nzTooltipTitle="Eliminar" [hidden]="!opcionSelected" 
+                        (click)="eliminarOpcion(indexOpcionSelected)">
+                            <button class="button is-danger">
+                                <span class="icon">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="columns" *ngIf="accionOpcion=='nueva_opcion' || accionOpcion=='editar_opcion'">
+                <div class="column is-10">
+                    <input class="input" type="text" [placeholder]="'Opción de la pregunta'" [(ngModel)]="valueOpcion">
+                </div>
+                <div class="column is-4">
+                    <button class="button is-info" (click)="agregarOpcion()">{{accionOpcion =='editar_opcion' ? 'Editar' : 'Agregar'}}</button>
+                </div>
+            </div>
+
+            <div style="padding: 1rem 0;">
+                <div *ngFor="let i of opcionesPregunta; let index=index">
+                    <div (click)="changeOpcion(i, index)">
+                        <input 
+                    
+                    class="input" 
+                    type="text" 
+                    [ngStyle]="{
+                        'background': opcionSelected?.opcion == i?.opcion ? '#0000ff' 
+                        : i.id==null 
+                            ? '#00ff00' :
+                                i.id==-1   
+                                ? '#ff0000' :
+                                '#f1f1f1',
+                        'cursor' : 'pointer'}"
+                    value="{{index+1}}) {{i.opcion}}"
+                    disabled
+                    [placeholder]="'Opción de la pregunta'">
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 1rem;"></div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" (click)="handleOkEvent()">{{editando ? 'Editar' :
+                        'Agregar'}}</button>
+                </div>
+                <div class="control">
+                    <button class="button is-link is-light" (click)="handleCancel()">Cancelar</button>
+                </div>
+            </div>
+
+            <div style="padding: 3rem;"></div>
+
         </nz-spin>
 
     </ng-template>
 
+    
+    
     <ng-template #tabla>
-        <label class="label" *ngIf="!cargandoTabla">Listado de respuestas: {{textoFechas}}</label>
 
+        <label class="label" *ngIf="!cargandoPreguntas">Listado de preguntas</label>
 
-        <app-card-buttons [data]='dataToExport' [label]="'encuestas'" *ngIf="detalles?.length > 0"></app-card-buttons>
+        <ng-container *ngTemplateOutlet="buttons"></ng-container>
+        
 
-        <div class="is-justify-content-flex-end" *ngIf="!cargandoTabla">
-            <label class="label">{{detalles?.length}} respuestas. </label>
+        <div class="is-justify-content-flex-end" *ngIf="!cargandoPreguntas">
+            <label class="label">{{preguntas?.length}} preguntas. </label>
         </div>
 
-        <div [hidden]="!detalles">
-
-            <div *ngIf="cargandoTabla">
-                <div [hidden]="!(detalles?.length == 0)">
-                    <section class="hero">
-                        <div class="hero-body">
-                            <div class="container">
-                                <h1>No existe información para mostrar.</h1>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <div [hidden]="!(detalles?.length > 0)">
-                <nz-table #basicTable [nzData]="dataSet" [nzPageSize]='10' [nzLoading]='cargandoTabla'>
-                    <thead>
-                        <tr>
-                            <th>Persona</th>
-                            <th>Opcion</th>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of basicTable.data; let i=index">
-                            <td>{{data?.Personal_Empresa.nombreCompleto}}</td>
-                            <td>{{data.idopcionencuesta != null ? data.EncuestaOpcion?.opcion : 'OM:
-                                '+data?.opcionmanual}}</td>
-                            <td>{{data.hora | date :'d/MM/yy' }}</td>
-                        </tr>
-                    </tbody>
-                </nz-table>
-
-                <div class="is-justify-content-flex-end" style="background-color: #f9F9f9;">
-                    <div class="p-0">
-
-                    </div>
-                    <section class="hero">
-                        <div class="hero-body">
-                            <div class="container">
-                                <label class="label">Gráfico de barras</label>
-                            </div>
-                        </div>
-                    </section>
-
-                    <canvas id="chart" #chart width="100%" height="40vh">{{chart}}</canvas>
-
-
-                    <div class="p-0">
-
-                    </div>
-                    <section class="hero">
-                        <div class="hero-body">
-                            <div class="container">
-                                <label class="label">Gráfico circular</label>
-                            </div>
-                        </div>
-                    </section>
-
-                    <div style="display: flex; justify-content: center; align-items: center;">
-                        <div style="width:40%; height:300px;">
-                            <canvas id="chartCircle" #chartCircle>{{chartCircle}}</canvas>
-                        </div>
-                    </div>
-
-                    <section class="hero">
-                        <div class="hero-body">
-                            <div class="container">
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
-
-            </div>
-
-        </div>
-        <div [hidden]="!cargandoTabla">
-
-            <div class="example">
-                <nz-spin nzSimple></nz-spin>
-            </div>
-
-        </div>
-
+        <nz-table #basicTable [nzData]="preguntas" [nzPageSize]='10' [nzLoading]='cargandoPreguntas'>
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Tipo</th>
+                    <th>Pregunta</th>
+                    <th>Opción manual</th>
+                    <th>Opciones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data; let i=index">
+                    <td>{{i + 1}}</td>
+                    <td>{{data?.idtipopregunta == 1 ? 'Respuesta única' : 'Opción multiple'}}</td>
+                    <td>{{data.pregunta}}</td>
+                    <td>{{data.permitirOpcionManual ? 'Si' : 'No'}}</td>
+                    <td>{{data?.Opcions?.length}} opciones</td>
+                    <td>
+                        <span nz-tooltip nzTooltipTitle="Editar" (click)="showUpdatePreguntaConfirm(data)">
+                            <button class="button is-warning">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                            </button>
+                        </span>
+        
+                        <span nz-tooltip nzTooltipTitle="Eliminar" (click)="showDeletePreguntaConfirm(data['id'])">
+                            <button class="button is-danger">
+                                <span class="icon">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
 
         <section class="hero">
             <div class="hero-body">
@@ -245,7 +210,49 @@
         </section>
     </ng-template>
 
-
-
+    <ng-template #nueva_pregunta>
+        <ng-container *ngTemplateOutlet="formPregunta"></ng-container>
+    </ng-template>
 
 </nz-drawer>
+
+
+
+<ng-template #buttons>
+    
+<section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column is-four-fifths">
+                    <div class="box">
+                        <div class="columns is-multiline">
+                            <div class="column is-12">
+                                <div class="field is-flex is-justify-content-space-around">
+                                    
+                                    <a class="button is-rounded is-success" *ngIf="goNuevaPregunta" (click)="goNuevaPregunta()" nz-tooltip nzTooltipTitle="Agregar">
+                                        <span class="icon">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                    </a>
+                                    
+                                    <a *ngIf="!data" class="button is-rounded is-info" disabled>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-code"></i>
+                                        </span>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </div>
+</section>
+</ng-template>
+
