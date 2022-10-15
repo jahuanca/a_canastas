@@ -1,8 +1,8 @@
 import * as jwt_decode from "jwt-decode";
 export class Variables {
     
-    public static URL_SERVER="http://localhost:3000/";
-    //public static URL_SERVER="http://40.88.149.7/node/canastas/";
+    //public static URL_SERVER="http://localhost:3000/";
+    public static URL_SERVER="http://40.88.149.7/node/canastas/";
 
     constructor() {
 

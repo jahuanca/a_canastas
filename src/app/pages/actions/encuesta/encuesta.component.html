@@ -118,12 +118,9 @@
                     class="input" 
                     type="text" 
                     [ngStyle]="{
-                        'background': opcionSelected?.opcion == i?.opcion ? '#0000ff' 
-                        : i.id==null 
-                            ? '#00ff00' :
-                                i.id==-1   
-                                ? '#ff0000' :
-                                '#f1f1f1',
+                        'background': opcionSelected?.opcion == i?.opcion ? '#0000ff' : i.id==null ? '#00c853' :i.id==-1   ? '#ff0000' : '#f1f1f1',
+                        'color': opcionSelected?.opcion == i?.opcion ? '#fff' : i.id==null ? '#000' :i.id==-1   ? '#fff' : '#000',
+                        'text-decoration' : i.id==-1 ? 'line-through' : 'none',
                         'cursor' : 'pointer'}"
                     value="{{index+1}}) {{i.opcion}}"
                     disabled

@@ -121,6 +121,7 @@ export class EncuestaComponent implements OnInit {
   indexOpcionSelected:number;
 
   changeOpcion(i: Opcion, index:number) {
+    if(i.id==-1) return;
     this.opcionSelected = i;
     this.indexOpcionSelected=index;
   }
@@ -165,13 +166,13 @@ export class EncuestaComponent implements OnInit {
   }
 
   eliminarOpcion(index:number){
-    
     if(this.indexOpcionSelected==null) return;
     let o=this.opcionesPregunta[index];
     o.id=-1;
     this.opcionesPregunta[index]=o;
     this.opcionesPregunta=[...this.opcionesPregunta];
-    this.indexOpcionSelected==null;
+    this.indexOpcionSelected=null;
+    this.opcionSelected=null;
     this.valueOpcion = '';
     this.accionOpcion = '';
   }
