@@ -48,6 +48,13 @@ export class EncuestaService {
       );
   }
 
+  getReporte(id: number): Observable<any> {
+    return this.http.get<Encuesta>(`${this.URL_API}/report/${id}`, { headers: this.headers })
+      .pipe(
+        map(data => data)
+      );
+  }
+
   postEncuesta(arreglo: Encuesta) {
     return this.http.post<Encuesta>(`${this.URL_API}/create`, arreglo, { headers: this.headers })
       .pipe(
