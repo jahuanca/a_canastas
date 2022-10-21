@@ -56,16 +56,11 @@ export class EncuestasComponent implements OnInit {
   ];
 
 
-  constructor(private encuestaService: EncuestaService, private notification: NzNotificationService, private excelService: ExcelService) {
+  constructor(private encuestaService: EncuestaService, private notification: NzNotificationService) {
   }
 
   ngOnInit(): void {
     this.buscar(null);
-    /* this.encuestaService.getReporte(7)
-      .subscribe( res=>{
-        console.log(res)
-        this.excelService.exportAsExcelFile(res[0], '_reposr');
-      }); */
   }
 
   buscar = (args: any): void => {

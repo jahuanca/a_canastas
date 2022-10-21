@@ -233,12 +233,18 @@
                                             <i class="fas fa-plus"></i>
                                         </span>
                                     </a>
+
+                                    <a class="button is-rounded is-success" (click)="obtenerReporte()" nz-tooltip nzTooltipTitle="Respuestas">
+                                        <span class="icon">
+                                            <i class="fas fa-file-excel"></i>
+                                        </span>
+                                    </a>
                                     
-                                    <a *ngIf="!data" class="button is-rounded is-info" disabled>
+                                    <!-- <a *ngIf="!data" class="button is-rounded is-info" disabled>
                                         <span class="icon is-small">
                                             <i class="fas fa-code"></i>
                                         </span>
-                                    </a>
+                                    </a> -->
                                     
                                 </div>
                             </div>

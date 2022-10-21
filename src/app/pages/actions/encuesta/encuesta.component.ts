@@ -16,6 +16,8 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { PreguntaService } from 'src/app/services/pregunta.service';
 import { Pregunta } from 'src/app/models/pregunta';
 import { Opcion } from 'src/app/models/opcion';
+import { EncuestaService } from 'src/app/services/encuesta.service';
+import { ExcelService } from 'src/app/services/excel.service';
 
 @Component({
   selector: 'app-acciones-encuesta',
@@ -87,15 +89,14 @@ export class EncuestaComponent implements OnInit {
   constructor(
     private message: NzMessageService,
     private fb: FormBuilder,
+    private encuestaService: EncuestaService,
     private modal: NzModalService,
-
-    private preguntaService: PreguntaService
+    private preguntaService: PreguntaService,
+    private excelService:ExcelService,
   ) { }
 
   ngOnInit(): void {
-
     this.currentTemplate = 'tabla';
-
     this.validateForm = this.fb.group({
       id: []
     });
@@ -107,8 +108,18 @@ export class EncuestaComponent implements OnInit {
           break;
       }
     });
+  }
 
-
+  obtenerReporte():void{
+    this.encuestaService.getReporte(this.id)
+      .subscribe( res=>{
+        if((res as []).length == 0){
+          this.message.create('warning', `No se encontraron respuestas.`);
+        }else{
+          this.excelService.exportAsExcelFile(res, 'reporte_respuestas_'+this.id+Date.now().toString());
+          this.message.create('success', `Respuestas descargadas.`);
+        }
+    });
   }
 
   submitForm(): void {
